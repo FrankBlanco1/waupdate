@@ -52,17 +52,14 @@ def get_WhatsApp_variants(soup : BeautifulSoup):
     # The first item is just the header of the variants
     for i in range(1, len(html_variants)):
         
+        version_data = html_variants[i].find_all("div", {"class" : "table-cell rowheight addseparator expand pad dowrap-break-all"})
         data = html_variants[i].find_all("div", {"class" : "table-cell rowheight addseparator expand pad dowrap"})
         
-        version_info = data[0].find_all('span')
-        version = version_info[0].text.strip()
-        date = version_info[1].text.strip()
-        
         scrapped_variants.append({
-            "Version" : str(version) + " " + str(date),
-            "arquitectura: " : data[1].text.strip(),
-            "version minima de Android: " : data[2].text.strip(),
-            "screen_dpi: " : data[3].text.strip()
+            "Version" : " ".join(version_data[0].text.split()),
+            "arquitectura: " : data[0].text.strip(),
+            "version minima de Android: " : data[1].text.strip(),
+            "screen_dpi: " : data[2].text.strip()
         })
         
     return scrapped_variants
